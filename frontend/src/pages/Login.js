@@ -66,7 +66,7 @@ const Login = () => {
                     <i className="icon lock-icon"></i>  {/* Optional icon for password field */}
                 </div>
 
-                <a href="#" className="forgot-password-link">Forgot password?</a>
+                <a href="/forgot-password" className="forgot-password-link">Forgot password?</a>
 
                 <button type="submit" className="login-button">Log In</button> {/* Submit Button */}
             </form>

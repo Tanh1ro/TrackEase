@@ -7,37 +7,69 @@ const Signup = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        if (!emailOrPhone || !password || !confirmPassword) {
+            setError("All fields are required.");
+            return false;
+        }
+        if (password.length < 8) {
+            setError("Password must be at least 8 characters long.");
+            return false;
+        }
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return false;
+        }
+        return true;
+    };
 
     const handleSignup = async (event) => {
         event.preventDefault();
+        setError("");
+        setIsLoading(true);
 
-        if (password !== confirmPassword) {
-            setError("Passwords do not match.");
+        if (!validateForm()) {
+            setIsLoading(false);
             return;
         }
 
-        const userData = {  
-            emailOrPhone: emailOrPhone,  
-            password: password,  
+        const userData = {
+            username: emailOrPhone,
+            password: password,
         };
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/signup/", {  
-                method: "POST",  
-                headers: { "Content-Type": "application/json" },  
-                body: JSON.stringify(userData),
+            console.log("Attempting signup with:", { ...userData, password: "***" });
+            const response = await fetch("http://127.0.0.1:8000/api/signup/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(userData)
             });
 
             const data = await response.json();
+            console.log("Signup response:", { ...data, token: data.token ? "***" : null });
 
             if (response.ok) {
-                navigate("/dashboard");
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    navigate("/dashboard");
+                } else {
+                    setError("Signup successful but no token received.");
+                }
             } else {
                 setError(data.error || "Signup failed. Please try again.");
             }
         } catch (error) {
-            setError("An error occurred. Please try again.");
+            console.error("Signup error:", error);
+            setError("Network error. Please check your connection and try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -57,6 +89,7 @@ const Signup = () => {
                         onChange={(e) => setEmailOrPhone(e.target.value)}
                         className="input-field"
                         required
+                        disabled={isLoading}
                     />
                     <i className="icon email-phone-icon"></i>  {/* Optional icon for input */}
                 </div>
@@ -70,6 +103,7 @@ const Signup = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="input-field"
                         required
+                        disabled={isLoading}
                     />
                     <i className="icon lock-icon"></i>  {/* Optional icon for password */}
                 </div>
@@ -83,11 +117,18 @@ const Signup = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         className="input-field"
                         required
+                        disabled={isLoading}
                     />
                     <i className="icon lock-icon"></i>  {/* Optional icon for confirm password */}
                 </div>
 
-                <button type="submit" className="login-button">Sign Up</button> {/* Submit Button */}
+                <button 
+                    type="submit" 
+                    className="login-button"
+                    disabled={isLoading}
+                >
+                    {isLoading ? "Signing up..." : "Sign Up"}
+                </button> {/* Submit Button */}
             </form>
 
             <p className="signup-prompt">

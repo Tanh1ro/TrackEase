@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #11101D;
+  --bg-secondary: #1d1b31;
+  --text-primary: #fff;
+  --text-secondary: #11101D;
+  --hover-bg: #FFF;
+  --hover-text: #11101D;
+  --home-bg: #E4E9F7;
+  --icon-color: #fff;
+  --icon-hover-color: #11101D;
+}
+
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #11101D;
+  --text-secondary: #ffffff;
+  --hover-bg: #11101D;
+  --hover-text: #ffffff;
+  --home-bg: #f0f2f5;
+  --icon-color: #11101D;
+  --icon-hover-color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 78px;
+  background: var(--bg-primary);
+  padding: 6px 14px;
+  z-index: 99;
+  transition: all 0.5s ease;
+}
+
+.sidebar.open {
+  width: 250px;
+}
+
+.sidebar .logo-details {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.sidebar .logo-details .icon {
+  color: var(--icon-color);
+  font-size: 24px;
+  font-weight: 600;
+  opacity: 1;
+  transition: all 0.5s ease;
+}
+
+.sidebar.open .logo-details .icon {
+  opacity: 1;
+}
+
+.sidebar .logo-details .logo_name {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.sidebar.open .logo-details .logo_name {
+  opacity: 1;
+}
+
+.sidebar .toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  margin-right: 11px;
+}
+
+.sidebar.open .toggle-btn {
+  text-align: right;
+  margin-right: 0;
+}
+
+.sidebar .nav-icon {
+  color: var(--icon-color);
+  font-size: 24px;
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.sidebar .toggle-icon {
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  color: var(--icon-color);
+}
+
+.sidebar .search-icon {
+  color: var(--icon-color);
+  font-size: 24px;
+  font-weight: 400;
+  margin-right: 10px;
+}
+
+.sidebar .logout-icon {
+  color: var(--icon-color);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sidebar i {
+  color: var(--icon-color);
+  font-size: 24px;
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.sidebar .nav-list {
+  margin-top: 20px;
+  height: 100%;
+}
+
+.sidebar li {
+  position: relative;
+  list-style: none;
+  margin: 12px 0;
+}
+
+.sidebar li .tooltip {
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  opacity: 0;
+  transition: 0s;
+}
+
+.sidebar li:hover .tooltip {
+  opacity: 1;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sidebar.open li .tooltip {
+  display: none;
+}
+
+.sidebar li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  padding: 0 8px;
+  height: 40px;
+}
+
+.sidebar li a:hover {
+  background: var(--hover-bg);
+}
+
+.sidebar li a .nav-icon {
+  min-width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: var(--icon-color);
+  font-size: 24px;
+  margin-right: 10px;
+  opacity: 1;
+}
+
+.sidebar li a:hover .nav-icon {
+  color: var(--icon-hover-color);
+}
+
+.sidebar li a .links_name {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0;
+  transition: 0.4s;
+  white-space: nowrap;
+}
+
+.sidebar.open li a .links_name {
+  opacity: 1;
+}
+
+.sidebar li a:hover .links_name {
+  color: var(--hover-text);
+}
+
+.sidebar li i {
+  height: 35px;
+  font-size: 24px;
+  border-radius: 8px;
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.sidebar li.profile {
+  position: fixed;
+  height: 60px;
+  width: 78px;
+  left: 0;
+  bottom: 0;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  transition: all 0.5s ease;
+}
+
+.sidebar.open li.profile {
+  width: 250px;
+}
+
+.sidebar li .profile-details {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar li img {
+  height: 45px;
+  width: 45px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.sidebar li.profile .name,
+.sidebar li.profile .job {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.sidebar li.profile .job {
+  font-size: 12px;
+}
+
+.home-section {
+  position: relative;
+  background: var(--home-bg);
+  min-height: 100vh;
+  top: 0;
+  left: 78px;
+  width: calc(100% - 78px);
+  transition: all 0.5s ease;
+}
+
+.sidebar.open ~ .home-section {
+  left: 250px;
+  width: calc(100% - 250px);
+}
+
+.home-section .text {
+  display: inline-block;
+  color: var(--text-secondary);
+  font-size: 25px;
+  font-weight: 500;
+  margin: 18px;
+}
+
+.sidebar .search-box {
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+  position: relative;
+}
+
+.sidebar.open .search-box {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar .search-box input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 400;
+  transition: all 0.4s ease;
+  padding-left: 40px;
+}
+
+.sidebar .search-box input::placeholder {
+  color: var(--text-primary);
+  opacity: 0.5;
+}
+
+.sidebar .search-box .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--icon-color);
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  transform: scale(1.1);
+}
+
+.logout-btn .logout-icon {
+  color: var(--text-primary);
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover .logout-icon {
+  color: #ff4444;
+}
