@@ -53,7 +53,7 @@ pip install -r requirements.txt
 1. Start the Backend Server:
 ```bash
 cd backend
-python app.py
+python manage.py runserver
 ```
 
 2. Start the Frontend Development Server:
