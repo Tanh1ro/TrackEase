@@ -1,47 +1,48 @@
 .app {
 	display: flex;
-  }
-  
-  .home-section {
+	width: 100%;
+}
+
+.home-section {
 	position: relative;
 	background: #E4E9F7;
 	min-height: 100vh;
 	flex-grow: 1;
 	transition: all 0.5s ease;
-	padding: 20px;
-  }
-  
-  .home-section .text {
+	width: 100%;
+}
+
+.home-section .text {
 	display: inline-block;
 	color: #11101d;
 	font-size: 25px;
 	font-weight: 500;
 	margin: 18px;
-  }
-  
-  .sidebar li a:hover {
+}
+
+.sidebar li a:hover {
 	background: #FFF;
-  }
-  
-  .dashboard-content {
+}
+
+.dashboard-content {
 	margin-top: 20px;
-  }
-  
-  .card {
+}
+
+.card {
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	margin-bottom: 20px;
-  }
-  
-  .card-body {
+}
+
+.card-body {
 	padding: 20px;
-  }
-  
-  .card-title {
+}
+
+.card-title {
 	color: #11101d;
 	font-size: 18px;
 	font-weight: 500;
 	margin-bottom: 20px;
-  }
+}
   

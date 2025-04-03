@@ -12,18 +12,23 @@ body {
   justify-content: center;
   min-height: 100vh;
   background: #5F41E4;
+  padding: 20px;
 }
 #root {
   width: 100%;
-  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 .login-container {
-  margin: 0 auto;
+  width: 100%;
   max-width: 410px;
   padding: 2rem 1.5rem;
   border-radius: 0.5rem;
   background: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin: auto;
 }
 .login-container .form-title {
   text-align: center;
@@ -106,11 +111,9 @@ body {
 .login-form .input-wrapper i {
   position: absolute;
   top: 50%;
-  height: 100%;
-  display: flex;
-  color: #a395e0;
-  align-items: center;
   transform: translateY(-50%);
+  color: #a395e0;
+  font-size: 1.5rem;
   transition: 0.2s ease;
 }
 .login-form .input-wrapper i:not(.eye-icon) {
@@ -121,18 +124,17 @@ body {
   color: #5F41E4;
 }
 .login-form .input-wrapper i.eye-icon {
-  display: none;
   right: 0.93rem;
   color: #917DE8;
   cursor: pointer;
-  font-size: 1.25rem;
+  pointer-events: auto;
 }
 .login-form .input-wrapper .input-field:valid ~ .eye-icon {
-  display: flex;
+  display: block;
 }
 .login-form .forgot-password-link {
   display: block;
-  width:fit-content;
+  width: fit-content;
   margin-top: -0.44rem;
 }
 .login-form .login-button {

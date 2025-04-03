@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 } */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+
+
+.main-content.without-sidebar {
+  margin-left: 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-content.with-sidebar {
+    margin-left: 0;
+  }
+}

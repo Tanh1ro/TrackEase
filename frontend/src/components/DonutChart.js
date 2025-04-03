@@ -1,60 +1,53 @@
 import React from 'react';
-import FusionCharts from 'fusioncharts';
-import Doughnut2D from 'fusioncharts/fusioncharts.charts';
-import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
-import ReactFusionCharts from 'react-fusioncharts';
+import { Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
-// Add the chart as a dependency
-FusionCharts.addDep(Doughnut2D);
-FusionCharts.addDep(FusionTheme);
+// Register ChartJS components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DonutChart = () => {
-  const dataSource = {
-    chart: {
-      caption: "Expense Distribution",
-      enableSmartLabels: false,
-      subcaption: "Monthly expense breakdown",
-      showpercentvalues: "1",
-      defaultcenterlabel: "Total Expenses",
-      aligncaptionwithcanvas: "0",
-      captionpadding: "0",
-      decimals: "0",
-      plottooltext: "<b>$percentValue</b> of total expenses are in <b>$label</b>",
-      theme: "fusion"
+  const data = {
+    labels: ['Food & Dining', 'Transportation', 'Entertainment', 'Utilities'],
+    datasets: [
+      {
+        data: [18900, 5300, 10500, 1900],
+        backgroundColor: [
+          '#29577b',
+          '#35c09c',
+          '#f6ce49',
+          '#f7a35c'
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Expense Distribution',
+        font: {
+          size: 16,
+        },
+      },
     },
-    data: [
-      {
-        color: "#29577b",
-        label: "Food & Dining",
-        value: "18900"
-      },
-      {
-        color: "#35c09c",
-        label: "Transportation",
-        value: "5300"
-      },
-      {
-        color: "#f6ce49",
-        label: "Entertainment",
-        value: "10500"
-      },
-      {
-        color: "#f7a35c",
-        label: "Utilities",
-        value: "1900"
-      }
-    ]
+    cutout: '70%',
   };
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
-      <ReactFusionCharts
-        type="doughnut2d"
-        width="100%"
-        height="100%"
-        dataFormat="JSON"
-        dataSource={dataSource}
-      />
+      <Doughnut data={data} options={options} />
     </div>
   );
 };

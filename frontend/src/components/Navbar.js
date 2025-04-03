@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 import '../css/Navbar.css';
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
+  const { userData } = useUser();
   const handleClick = () => setClick(!click);
 
   return (
@@ -13,21 +15,18 @@ const Navbar = () => {
         <h1 className='logo'>Logo</h1>
         <ul className={click ? 'nav-menu active' : 'nav-menu'}>
           <li>
-            <Link to='/'>Home</Link> {/* Use Link instead of anchor tag */}
+            <Link to='/'>Home</Link>
           </li>
           <li>
-            <Link to='/about'>About Us</Link> {/* Example link for "Featured" */}
+            <Link to='/about'>About</Link>
           </li>
           <li>
-            <Link to='/earn'>Earn</Link> {/* Example link for "Earn" */}
-          </li>
-          <li>
-            <Link to='/contact'>Contact</Link> {/* Example link for "Contact" */}
+            <Link to='/contact'>Contact Us</Link>
           </li>
         </ul>
         <div className='btn-group'>
           <Link to='/login'>
-            <button className='btn'>Login</button> {/* Wrap login button with Link */}
+            <button className='btn'>Login</button>
           </Link>
         </div>
         <div className='hamburger' onClick={handleClick}>

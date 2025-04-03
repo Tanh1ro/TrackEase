@@ -8,28 +8,77 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        if (!email) {
+            setError("Email is required");
+            return false;
+        }
+        if (!password) {
+            setError("Password is required");
+            return false;
+        }
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError("Please enter a valid email address");
+            return false;
+        }
+        return true;
+    };
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        setError("");
+
+        if (!validateForm()) {
+            return;
+        }
+
+        setIsLoading(true);
 
         try {
             const response = await fetch("http://localhost:8000/api/login/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ 
+                    username: email,
+                    password: password 
+                }),
             });
 
             const data = await response.json();
 
             if (response.ok) {
+                // Store authentication token
                 localStorage.setItem("token", data.token);
-                navigate("/dashboard");
+                
+                // Fetch user profile data
+                const profileResponse = await fetch("http://localhost:8000/api/profile/", {
+                    headers: {
+                        "Authorization": `Token ${data.token}`
+                    }
+                });
+                
+                const profileData = await profileResponse.json();
+                
+                if (profileResponse.ok) {
+                    // Store user profile data
+                    localStorage.setItem("userProfile", JSON.stringify(profileData));
+                    navigate("/dashboard");
+                } else {
+                    setError("Failed to fetch user profile");
+                }
             } else {
-                setError(data.error || "Login failed");
+                setError(data.error || "Invalid email or password");
             }
         } catch (error) {
-            setError("An error occurred. Please try again.");
+            setError("An error occurred. Please try again later.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -43,32 +92,38 @@ const Login = () => {
 
             <form onSubmit={handleLogin} className="login-form">
                 {/* Email Input Field */}
-                <div className="input-wrapper">
-                    <InputField
-                        type="email"
-                        placeholder="Email address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="input-field"
-                    />
-                    <i className="icon mail-icon"></i>  {/* Optional icon for the email field */}
-                </div>
+                <InputField
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="input-field"
+                    disabled={isLoading}
+                    icon="mail"
+                />
 
                 {/* Password Input Field */}
-                <div className="input-wrapper">
-                    <InputField
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="input-field"
-                    />
-                    <i className="icon lock-icon"></i>  {/* Optional icon for password field */}
-                </div>
+                <InputField
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-field"
+                    disabled={isLoading}
+                    icon="lock"
+                    rightIcon={showPassword ? "visibility" : "visibility_off"}
+                    onRightIconClick={() => setShowPassword(!showPassword)}
+                />
 
                 <a href="/forgot-password" className="forgot-password-link">Forgot password?</a>
 
-                <button type="submit" className="login-button">Log In</button> {/* Submit Button */}
+                <button 
+                    type="submit" 
+                    className={`login-button ${isLoading ? 'loading' : ''}`}
+                    disabled={isLoading}
+                >
+                    {isLoading ? 'Logging in...' : 'Log In'}
+                </button> {/* Submit Button */}
             </form>
 
             <p className="signup-prompt">

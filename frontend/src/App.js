@@ -8,26 +8,69 @@ import About from "./pages/About";
 import Footer from './components/Footer';
 import SideBar from './components/SideBar';
 import UserPage from './pages/UserPage';
-import { UserProvider } from './context/UserContext';
+import Groups from './pages/Groups';
+import ShareExpenses from './pages/ShareExpenses';
+import { UserProvider, useUser } from './context/UserContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+
+function AppContent() {
+    const { userData } = useUser();
+
+    return (
+        <div className="app">
+            <div className={`main-content ${userData ? 'with-sidebar' : 'without-sidebar'}`}>
+                <Routes>
+                    {/* Public routes */}
+                    <Route path="/" element={<Home />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/about" element={<About />} />
+
+                    {/* Protected routes */}
+                    <Route path="/dashboard" element={
+                        <ProtectedRoute>
+                            <>
+                                {userData && <SideBar />}
+                                <Dashboard />
+                            </>
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/user" element={
+                        <ProtectedRoute>
+                            <>
+                                {userData && <SideBar />}
+                                <UserPage />
+                            </>
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/groups" element={
+                        <ProtectedRoute>
+                            <>
+                                {userData && <SideBar />}
+                                <Groups />
+                            </>
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/share-expenses" element={
+                        <ProtectedRoute>
+                            <>
+                                {userData && <SideBar />}
+                                <ShareExpenses />
+                            </>
+                        </ProtectedRoute>
+                    } />
+                </Routes>
+            </div>
+        </div>
+    );
+}
 
 function App() {
     return (
         <UserProvider>
             <Router>
-                <div className="app">
-                    <SideBar />
-                    <div className="main-content">
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/user" element={<UserPage />} />
-                        </Routes>
-                    </div>
-                </div>
+                <AppContent />
             </Router>
         </UserProvider>
     );
