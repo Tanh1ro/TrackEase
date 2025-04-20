@@ -1,3 +1,17 @@
+/**
+ * @file UserContext.js
+ * @description Context provider for user authentication and state management
+ * @author Nandeesh Kantli
+ * @date April 4, 2024
+ * @version 1.0.0
+ * 
+ * This context provides:
+ * 1. User authentication state management
+ * 2. User profile data access
+ * 3. Authentication methods (login, logout, etc.)
+ * 4. Protected route functionality
+ */
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
@@ -26,6 +40,8 @@ export const UserProvider = ({ children }) => {
         setUserData(response.data);
       } catch (err) {
         setError(err.message);
+        // Clear invalid token
+        localStorage.removeItem('token');
       } finally {
         setLoading(false);
       }
@@ -33,6 +49,17 @@ export const UserProvider = ({ children }) => {
 
     fetchUserData();
   }, []);
+
+  const login = (user) => {
+    setUserData(user);
+    setError(null);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUserData(null);
+    setError(null);
+  };
 
   const updateProfile = async (updateData) => {
     try {
@@ -56,8 +83,17 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const value = {
+    userData,
+    loading,
+    error,
+    login,
+    logout,
+    updateProfile
+  };
+
   return (
-    <UserContext.Provider value={{ userData, setUserData, loading, error, updateProfile }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );

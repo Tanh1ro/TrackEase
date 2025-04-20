@@ -1,220 +1,395 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import '../css/login.css';  // Importing the provided common CSS
-import SocialLogin from "../components/SocialLogin";
-import InputField from "../components/InputField";
+/**
+ * @file Signup.js
+ * @description Component for user registration and account creation
+ * @author Nandeesh Kantli
+ * @date April 4, 2024
+ * @version 1.0.0
+ * 
+ * This component provides:
+ * 1. User registration form with validation
+ * 2. Password strength checking
+ * 3. Email verification process
+ * 4. Error handling and user feedback
+ */
+
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaLock, FaRegEye, FaRegEyeSlash, FaExclamationCircle, FaPhone, FaGoogle, FaApple } from 'react-icons/fa';
+import { useUser } from '../context/UserContext';
+import api, { endpoints } from '../config/api';
+import '../css/Auth.css';
 
 const Signup = () => {
-    const [emailOrPhone, setEmailOrPhone] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        identifier: '',
+        identifierType: 'email',
+        password: '',
+        confirmPassword: '',
+        countryCode: '+91'
+    });
+    const [errors, setErrors] = useState({});
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const { login } = useUser();
     const navigate = useNavigate();
 
-    const validateForm = () => {
-        if (!emailOrPhone || !password || !confirmPassword) {
-            setError("All fields are required.");
-            return false;
+    const phonePatterns = {
+        '+91': {
+            pattern: /^[6-9]\d{9}$/,
+            errorMessage: 'Please enter a valid 10-digit Indian phone number',
+            flag: '🇮🇳',
+            country: 'India'
+        },
+        '+1': {
+            pattern: /^\d{10}$/,
+            errorMessage: 'Please enter a valid 10-digit US phone number',
+            flag: '🇺🇸',
+            country: 'United States'
+        },
+        '+44': {
+            pattern: /^[7-9]\d{9}$/,
+            errorMessage: 'Please enter a valid UK phone number',
+            flag: '🇬🇧',
+            country: 'United Kingdom'
+        },
+        '+61': {
+            pattern: /^4\d{8}$/,
+            errorMessage: 'Please enter a valid Australian phone number',
+            flag: '🇦🇺',
+            country: 'Australia'
+        },
+        '+81': {
+            pattern: /^[789]0\d{8}$/,
+            errorMessage: 'Please enter a valid Japanese phone number',
+            flag: '🇯🇵',
+            country: 'Japan'
+        },
+        '+86': {
+            pattern: /^1[3-9]\d{9}$/,
+            errorMessage: 'Please enter a valid Chinese phone number',
+            flag: '🇨🇳',
+            country: 'China'
+        },
+        '+49': {
+            pattern: /^1[567]\d{8}$/,
+            errorMessage: 'Please enter a valid German phone number',
+            flag: '🇩🇪',
+            country: 'Germany'
+        },
+        '+33': {
+            pattern: /^[67]\d{8}$/,
+            errorMessage: 'Please enter a valid French phone number',
+            flag: '🇫🇷',
+            country: 'France'
         }
-        if (password.length < 8) {
-            setError("Password must be at least 8 characters long.");
-            return false;
-        }
-        if (password !== confirmPassword) {
-            setError("Passwords do not match.");
-            return false;
-        }
-        return true;
     };
 
-    const handleSignup = async (event) => {
-        event.preventDefault();
-        setError("");
-        setIsLoading(true);
-
-        if (!validateForm()) {
-            setIsLoading(false);
-            return;
-        }
-
-        const userData = {
-            username: emailOrPhone,
-            password: password,
-        };
-
+    const handleSocialLogin = async (provider) => {
         try {
-            console.log("Attempting signup with:", { ...userData, password: "***" });
-            const response = await fetch("http://127.0.0.1:8000/api/signup/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(userData)
-            });
-
-            const data = await response.json();
-            console.log("Signup response:", { ...data, token: data.token ? "***" : null });
-
-            if (response.ok) {
-                if (data.token) {
-                    console.log("Token received, storing in localStorage");
-                    localStorage.setItem("token", data.token);
-                    // Add a small delay to ensure token is stored
-                    setTimeout(() => {
-                        console.log("Navigating to dashboard");
-                        navigate("/dashboard");
-                    }, 100);
-                } else {
-                    setError("Signup successful but no token received.");
-                }
+            setIsLoading(true);
+            const response = await api.post(endpoints.auth.socialLogin, { provider });
+            
+            if (response.data.authUrl) {
+                window.location.href = response.data.authUrl;
             } else {
-                setError(data.error || "Signup failed. Please try again.");
+                setErrors({
+                    submit: 'Unable to initialize social login. Please try again.'
+                });
             }
         } catch (error) {
-            console.error("Signup error:", error);
-            setError("Network error. Please check your connection and try again.");
+            setErrors({
+                submit: error.response?.data?.error || `${provider} login failed. Please try again.`
+            });
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleGoogleLogin = async () => {
-        try {
-            // Initialize Google Sign-In
-            const googleAuth = await window.gapi.auth2.getAuthInstance();
-            const googleUser = await googleAuth.signIn();
-            const profile = googleUser.getBasicProfile();
+    const validateIdentifier = async (identifier, type) => {
+        if (!identifier) return 'This field is required';
+
+        if (type === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(identifier)) return 'Please enter a valid email address';
             
-            // Get user data from Google
-            const userData = {
-                username: profile.getEmail(),
-                email: profile.getEmail(),
-                name: profile.getName(),
-                profileImage: profile.getImageUrl(),
-                googleId: profile.getId()
-            };
-
-            // Send to backend for authentication
-            const response = await fetch("http://localhost:8000/api/social-auth/google/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData)
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("userProfile", JSON.stringify(data.user));
-                navigate("/dashboard");
-            } else {
-                setError(data.error || "Google login failed");
+            try {
+                const response = await api.post(endpoints.auth.checkEmail, { email: identifier });
+                if (response.data.exists) {
+                    return 'This email is already registered. Please login instead.';
+                }
+            } catch (error) {
+                console.error('Error checking email:', error);
             }
-        } catch (error) {
-            console.error("Google login error:", error);
-            setError("Failed to login with Google");
+        } else {
+            const countryPattern = phonePatterns[formData.countryCode];
+            if (!countryPattern) return 'Selected country is not supported';
+            if (!countryPattern.pattern.test(identifier)) {
+                return countryPattern.errorMessage;
+            }
+            
+            try {
+                const response = await api.post(endpoints.auth.checkPhone, { phone: identifier });
+                if (response.data.exists) {
+                    return 'This phone number is already registered. Please login instead.';
+                }
+            } catch (error) {
+                console.error('Error checking phone:', error);
+            }
+        }
+        return '';
+    };
+
+    const validatePassword = (password) => {
+        if (!password) return 'Password is required';
+        if (password.length < 8) return 'Password must be at least 8 characters';
+        if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter';
+        if (!/[a-z]/.test(password)) return 'Password must contain at least one lowercase letter';
+        if (!/[0-9]/.test(password)) return 'Password must contain at least one number';
+        if (!/[!@#$%^&*]/.test(password)) return 'Password must contain at least one special character';
+        return '';
+    };
+
+    const validateConfirmPassword = (confirmPassword) => {
+        if (!confirmPassword) return 'Please confirm your password';
+        if (confirmPassword !== formData.password) return 'Passwords do not match';
+        return '';
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
         }
     };
 
-    const handleAppleLogin = async () => {
-        try {
-            // Initialize Apple Sign-In
-            const response = await window.AppleID.auth.signIn();
-            
-            // Send to backend for authentication
-            const authResponse = await fetch("http://localhost:8000/api/social-auth/apple/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(response)
+    const handleBlur = async (e) => {
+        const { name, value } = e.target;
+        let error = '';
+
+        if (name === 'identifier') {
+            error = await validateIdentifier(value, formData.identifierType);
+        } else if (name === 'password') {
+            error = validatePassword(value);
+        } else if (name === 'confirmPassword') {
+            error = validateConfirmPassword(value);
+        }
+
+        setErrors(prev => ({
+            ...prev,
+            [name]: error
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        const identifierError = await validateIdentifier(formData.identifier, formData.identifierType);
+        const passwordError = validatePassword(formData.password);
+        const confirmPasswordError = validateConfirmPassword(formData.confirmPassword);
+
+        if (identifierError || passwordError || confirmPasswordError) {
+            setErrors({
+                identifier: identifierError,
+                password: passwordError,
+                confirmPassword: confirmPasswordError
             });
+            return;
+        }
 
-            const data = await authResponse.json();
-
-            if (authResponse.ok) {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("userProfile", JSON.stringify(data.user));
-                navigate("/dashboard");
-            } else {
-                setError(data.error || "Apple login failed");
+        setIsLoading(true);
+        try {
+            const response = await api.post(endpoints.auth.signup, {
+                [formData.identifierType]: formData.identifier,
+                password: formData.password,
+                country_code: formData.identifierType === 'phone' ? formData.countryCode : undefined
+            });
+            
+            if (response.data.success) {
+                alert('Account created successfully! Please verify your ' + 
+                      (formData.identifierType === 'email' ? 'email' : 'phone number') + 
+                      ' to continue.');
+                navigate('/login');
             }
         } catch (error) {
-            console.error("Apple login error:", error);
-            setError("Failed to login with Apple");
+            setErrors({
+                submit: error.response?.data?.error || 'Error creating account. Please try again.'
+            });
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="login-container">
-            <h2 className="form-title">Sign up with</h2>
-            <SocialLogin onGoogleLogin={handleGoogleLogin} onAppleLogin={handleAppleLogin} />
-            <p className="separator"><span>or</span></p>
+        <div className="auth-container">
+            <div className="auth-box">
+                <h2 className="auth-title">Create an account</h2>
 
-            {error && <p className="error-message">{error}</p>}
-
-            <form onSubmit={handleSignup} className="login-form">
-                {/* Email or Phone Input Field */}
-                <div className="input-wrapper">
-                    <InputField
-                        type="text"
-                        placeholder="Email address or Phone number"
-                        value={emailOrPhone}
-                        onChange={(e) => setEmailOrPhone(e.target.value)}
-                        className="input-field"
+                <div className="social-buttons">
+                    <button 
+                        className="social-button"
+                        onClick={() => handleSocialLogin('google')}
+                        type="button"
                         disabled={isLoading}
-                        icon="mail"
-                    />
+                    >
+                        <FaGoogle /> Google
+                    </button>
+                    <button 
+                        className="social-button"
+                        onClick={() => handleSocialLogin('apple')}
+                        type="button"
+                        disabled={isLoading}
+                    >
+                        <FaApple /> Apple
+                    </button>
                 </div>
 
-                {/* Password Input Field */}
-                <div className="input-wrapper">
-                    <InputField
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="input-field"
-                        disabled={isLoading}
-                        icon="lock"
-                        rightIcon={showPassword ? "visibility" : "visibility_off"}
-                        onRightIconClick={() => setShowPassword(!showPassword)}
-                    />
+                <div className="divider">
+                    <span>or</span>
                 </div>
 
-                {/* Confirm Password Input Field */}
-                <div className="input-wrapper">
-                    <InputField
-                        type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="input-field"
-                        disabled={isLoading}
-                        icon="lock"
-                        rightIcon={showConfirmPassword ? "visibility" : "visibility_off"}
-                        onRightIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    />
+                <div className="identifier-toggle">
+                    <button
+                        type="button"
+                        className={`toggle-btn ${formData.identifierType === 'email' ? 'active' : ''}`}
+                        onClick={() => setFormData(prev => ({ ...prev, identifierType: 'email', identifier: '' }))}
+                    >
+                        <FaEnvelope /> Email
+                    </button>
+                    <button
+                        type="button"
+                        className={`toggle-btn ${formData.identifierType === 'phone' ? 'active' : ''}`}
+                        onClick={() => setFormData(prev => ({ ...prev, identifierType: 'phone', identifier: '' }))}
+                    >
+                        <FaPhone /> Phone
+                    </button>
                 </div>
 
-                <button 
-                    type="submit" 
-                    className="login-button"
-                    disabled={isLoading}
-                >
-                    {isLoading ? "Signing up..." : "Sign Up"}
-                </button>
-            </form>
+                <form onSubmit={handleSubmit} noValidate>
+                    <div className="form-group">
+                        {formData.identifierType === 'email' ? (
+                            <FaEnvelope className="icon" />
+                        ) : (
+                            <FaPhone className="icon" />
+                        )}
+                        
+                        {formData.identifierType === 'phone' && (
+                            <select
+                                name="countryCode"
+                                value={formData.countryCode}
+                                onChange={handleChange}
+                                className="country-code-select"
+                            >
+                                {Object.entries(phonePatterns).map(([code, { flag, country }]) => (
+                                    <option key={code} value={code}>
+                                        {flag} {code}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                        
+                        <input
+                            type={formData.identifierType === 'email' ? 'email' : 'tel'}
+                            name="identifier"
+                            placeholder={formData.identifierType === 'email' ? 'Email address' : 'Phone number'}
+                            value={formData.identifier}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`${errors.identifier ? 'error' : ''} ${formData.identifierType === 'phone' ? 'with-country-code' : ''}`}
+                            disabled={isLoading}
+                        />
+                        {errors.identifier && (
+                            <div className="error-message">
+                                <FaExclamationCircle />
+                                {errors.identifier}
+                            </div>
+                        )}
+                    </div>
 
-            <p className="signup-prompt">
-                Already have an account? <a href="/login" className="signup-link">Log in</a>
-            </p>
+                    <div className="form-group">
+                        <FaLock className="icon" />
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={errors.password ? 'error' : ''}
+                            disabled={isLoading}
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password"
+                            onClick={() => setShowPassword(!showPassword)}
+                            tabIndex="-1"
+                        >
+                            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                        </button>
+                        {errors.password && (
+                            <div className="error-message">
+                                <FaExclamationCircle />
+                                {errors.password}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="form-group">
+                        <FaLock className="icon" />
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={errors.confirmPassword ? 'error' : ''}
+                            disabled={isLoading}
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            tabIndex="-1"
+                        >
+                            {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                        </button>
+                        {errors.confirmPassword && (
+                            <div className="error-message">
+                                <FaExclamationCircle />
+                                {errors.confirmPassword}
+                            </div>
+                        )}
+                    </div>
+
+                    {errors.submit && (
+                        <div className="error-message submit-error">
+                            <FaExclamationCircle />
+                            {errors.submit}
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="submit-button"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Creating account...' : 'Sign up'}
+                    </button>
+
+                    <div className="auth-footer">
+                        Already have an account? <Link to="/login">Login</Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

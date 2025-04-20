@@ -1,0 +1,399 @@
+/* Global CSS Variables */
+:root {
+  /* Light theme */
+  --primary-color: #7269ff;
+  --primary-hover: #8B84FF;
+  --primary-gradient: linear-gradient(to right, #7269ff, #8B84FF);
+  --background-light: #ffffff;
+  --card-background: #ffffff;
+  --text-color: #1a1a1a;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --shadow-color: rgba(114, 105, 255, 0.1);
+  --shadow-color-hover: rgba(114, 105, 255, 0.2);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
+  --input-background: #ffffff;
+  --input-border: #e0e0e0;
+  --input-text: #1a1a1a;
+  --input-placeholder: #999999;
+  --accent-color: #7269ff;
+  --accent-hover: #8B84FF;
+  --success-color: #10B981;
+  --error-color: #EF4444;
+}
+
+[data-theme='dark'] {
+  --background-light: #0d1117;
+  --card-background: #161b22;
+  --text-color: #e2e8f0;
+  --text-secondary: #8b949e;
+  --border-color: #30363d;
+  --input-background: #161b22;
+  --input-border: #30363d;
+  --input-text: #e2e8f0;
+  --input-placeholder: #8b949e;
+}
+
+/* Global Styles */
+body {
+  background-color: var(--background-light);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  background-color: var(--background-light);
+  min-height: 100vh;
+}
+
+/* Make sure all main content areas use the background color */
+main,
+.app,
+.container,
+.page-container,
+.content-wrapper,
+.dashboard-container,
+.home-section {
+  background-color: var(--background-light) !important;
+}
+
+/* Card styles */
+.card,
+.member-card,
+.feature-card,
+.info-card,
+.auth-card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+/* Input styles */
+input,
+textarea,
+select {
+  background-color: var(--input-background);
+  border-color: var(--border-color);
+  color: var(--input-text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder);
+}
+
+/* Text colors */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+}
+
+p, span, div {
+  color: var(--text-color);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+/* Button styles */
+.btn-primary {
+  background: var(--primary-gradient);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 6px;
+  border: 3px solid var(--background-light);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--background-light);
+}
+
+/* Global Styles */
+body {
+  background-color: var(--background-light);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Card Styles */
+.member-card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  transition: all var(--transition-speed);
+}
+
+.member-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--shadow-color);
+}
+
+.category-icon {
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-details h3 {
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.member-role {
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.tasks-completed {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--primary-gradient);
+  transition: width var(--transition-speed);
+}
+
+.member-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.amount {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.amount.up {
+  color: var(--success-color);
+}
+
+.amount.down {
+  color: var(--error-color);
+}
+
+.period {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Table Styles */
+.MuiTableCell-root {
+  color: var(--text-color) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.MuiTableRow-root:hover {
+  background-color: var(--input-background) !important;
+}
+
+/* Input Styles */
+.MuiOutlinedInput-root {
+  background-color: var(--input-background) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color) !important;
+}
+
+/* Button Styles */
+.MuiButton-contained {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+}
+
+.MuiButton-contained:hover {
+  background-color: var(--accent-hover) !important;
+}
+
+.MuiButton-outlined {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.MuiButton-outlined:hover {
+  border-color: var(--accent-color) !important;
+}
+
+/* Menu Styles */
+.MuiMenu-paper {
+  background-color: var(--card-background) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.MuiMenuItem-root {
+  color: var(--text-color) !important;
+}
+
+.MuiMenuItem-root:hover {
+  background-color: var(--shadow-color) !important;
+}
+
+/* Dialog Styles */
+.MuiDialog-paper {
+  background-color: var(--card-background) !important;
+  color: var(--text-color) !important;
+}
+
+/* Chip Styles */
+.MuiChip-root {
+  background-color: var(--input-background) !important;
+  color: var(--text-color) !important;
+}
+
+/* Switch Styles */
+.MuiSwitch-track {
+  background-color: var(--border-color) !important;
+}
+
+.MuiSwitch-thumb {
+  background-color: var(--primary-color) !important;
+}
+
+/* Search Box Styles */
+.search-box input {
+  background-color: var(--input-background);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: var(--input-radius);
+  width: 100%;
+}
+
+.search-box input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Premium Badge */
+.premium-badge {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.welcome-section h1 {
+  color: var(--text-color);
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.date-info {
+  color: var(--text-secondary);
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Links */
+a {
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* Button hover states */
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Input focus states */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--shadow-color);
+}
+
+/* Chip hover states */
+.MuiChip-root:hover {
+  background-color: var(--shadow-color) !important;
+} 

@@ -1,0 +1,47 @@
+:root {
+  /* Light Theme */
+  --background-light: #f8fafc;
+  --card-bg: #ffffff;
+  --card-bg-light: #f1f5f9;
+  --card-bg-hover: #f8fafc;
+  --input-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --accent-color: #6C63FF;
+  --accent-color-light: rgba(108, 99, 255, 0.1);
+  --accent-color-hover: rgba(108, 99, 255, 0.15);
+  --accent-color-dark: #5B4EAF;
+  --error-color: #ef4444;
+  --error-light: #fee2e2;
+  --error-hover: #fecaca;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --selected-bg: rgba(108, 99, 255, 0.08);
+  --selected-hover-bg: rgba(108, 99, 255, 0.12);
+  --calendar-icon-filter: invert(0);
+}
+
+[data-theme='dark'] {
+  /* Dark Theme */
+  --background-light: #0f172a;
+  --card-bg: #1e293b;
+  --card-bg-light: #334155;
+  --card-bg-hover: #1e293b;
+  --input-bg: #0f172a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --border-hover: #475569;
+  --accent-color: #818cf8;
+  --accent-color-light: rgba(129, 140, 248, 0.1);
+  --accent-color-hover: rgba(129, 140, 248, 0.15);
+  --accent-color-dark: #6366f1;
+  --error-color: #f87171;
+  --error-light: rgba(248, 113, 113, 0.1);
+  --error-hover: rgba(248, 113, 113, 0.15);
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --selected-bg: rgba(129, 140, 248, 0.15);
+  --selected-hover-bg: rgba(129, 140, 248, 0.2);
+  --calendar-icon-filter: invert(1);
+} 

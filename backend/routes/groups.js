@@ -1,3 +1,17 @@
+/**
+ * @file groups.js
+ * @description Routes for group management and operations
+ * @author Nandeesh Kantli
+ * @date April 4, 2024
+ * @version 1.0.0
+ * 
+ * This file provides routes for:
+ * 1. Group creation and management
+ * 2. Group member operations
+ * 3. Group expense tracking
+ * 4. Group settings and preferences
+ */
+
 const express = require('express');
 const router = express.Router();
 const Group = require('../models/Group');
@@ -107,4 +121,5 @@ router.delete('/:id/users/:userId', auth, async (req, res) => {
   }
 });
 
+// Export the router
 module.exports = router; 

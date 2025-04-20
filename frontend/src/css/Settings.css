@@ -1,0 +1,139 @@
+.settings-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.settings-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section-title {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.settings-section {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.settings-section h3 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.settings-divider {
+  margin: 2rem 0;
+  background-color: var(--border-color);
+}
+
+/* Dark mode styles */
+[data-theme='dark'] .settings-card {
+  background: var(--dark-card-bg);
+}
+
+[data-theme='dark'] .settings-section {
+  background: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+}
+
+[data-theme='dark'] .settings-section h3 {
+  color: var(--dark-text-primary);
+}
+
+[data-theme='dark'] .settings-divider {
+  background-color: var(--dark-border-color);
+}
+
+/* Form Controls */
+.settings-section .MuiFormControl-root {
+  margin-bottom: 1.5rem;
+}
+
+.settings-section .MuiInputLabel-root {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .settings-section .MuiInputLabel-root {
+  color: var(--dark-text-secondary);
+}
+
+.settings-section .MuiOutlinedInput-root {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .settings-section .MuiOutlinedInput-root {
+  background-color: var(--dark-input-bg);
+  border-color: var(--dark-border-color);
+}
+
+.settings-section .MuiOutlinedInput-input {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .settings-section .MuiOutlinedInput-input {
+  color: var(--dark-text-primary);
+}
+
+/* Switch Controls */
+.settings-section .MuiSwitch-root {
+  margin-right: 1rem;
+}
+
+.settings-section .MuiFormControlLabel-label {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .settings-section .MuiFormControlLabel-label {
+  color: var(--dark-text-primary);
+}
+
+/* Buttons */
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 1rem;
+  }
+  
+  .settings-section {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .settings-divider {
+    margin: 1.5rem 0;
+  }
+  
+  .settings-section .MuiFormControl-root {
+    margin-bottom: 1rem;
+  }
+} 

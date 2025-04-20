@@ -1,187 +1,182 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../css/SideBar.css";
 import { useUser } from "../context/UserContext";
 import { 
-  BiMenu, 
-  BiMenuAltRight, 
-  BiSearch, 
-  BiGridAlt, 
-  BiUser, 
-  BiChat, 
-  BiPieChartAlt2, 
-  BiFolder, 
-  BiCartAlt, 
-  BiHeart, 
-  BiCog, 
-  BiLogOut,
+  BiMenu,
+  BiX,
+  BiGridAlt,
   BiDollarCircle,
-  BiCodeAlt,
   BiGroup,
-  BiSun,
-  BiMoon,
-  BiUserCircle
+  BiUser,
+  BiCog,
+  BiLogOut,
+  BiSearch,
+  BiTransfer
 } from "react-icons/bi";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState('dark');
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const { userData, setUserData } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+  const menuItems = useMemo(() => [
+    { icon: <BiGridAlt className="nav-icon" />, name: "Dashboard", path: "/dashboard" },
+    { icon: <BiDollarCircle className="nav-icon" />, name: "Expenses", path: "/share-expenses" },
+    { icon: <BiGroup className="nav-icon" />, name: "Groups", path: "/groups" },
+    { icon: <BiTransfer className="nav-icon" />, name: "Transactions", path: "/transactions" },
+    { icon: <BiUser className="nav-icon" />, name: "Profile", path: "/Profile" },
+    { icon: <BiCog className="nav-icon" />, name: "Settings", path: "/settings" },
+  ], []);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+    document.body.classList.toggle('sidebar-open', !isOpen);
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove('sidebar-open');
+    };
+  }, []);
+
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    if (query.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+
+    // Filter menu items based on search query
+    const results = menuItems.filter(item =>
+      item.name.toLowerCase().includes(query) ||
+      item.path.toLowerCase().includes(query)
+    );
+    setSearchResults(results);
+  };
+
+  const handleSearchItemClick = (path) => {
+    navigate(path);
+    setSearchQuery('');
+    setSearchResults([]);
+    if (window.innerWidth <= 992) {
+      setIsOpen(false);
+    }
   };
 
   const handleLogout = () => {
-    // Clear user data from context
     setUserData(null);
-    
-    // Clear any stored session data from localStorage
     localStorage.removeItem('userData');
     localStorage.removeItem('token');
-    
-    // Navigate to home page
     navigate('/');
-  };
-
-  const handleLogoutClick = () => {
-    setShowLogoutConfirm(true);
-  };
-
-  const handleConfirmLogout = () => {
-    setShowLogoutConfirm(false);
-    handleLogout();
-  };
-
-  const handleCancelLogout = () => {
-    setShowLogoutConfirm(false);
   };
 
   return (
     <>
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
-        <div className="logo-details">
-          <BiCodeAlt className="icon" />
-          <div className="logo_name">SplitIt</div>
-          <div className="toggle-btn" onClick={toggleSidebar}>
-            {isOpen ? <BiMenuAltRight className="toggle-icon" /> : <BiMenu className="toggle-icon" />}
-          </div>
+        <div className="sidebar-header">
+          {isOpen && <div className="logo">TrackEase</div>}
+          <button className="toggle-btn" onClick={toggleSidebar}>
+            {isOpen ? <BiX className="toggle-icon" /> : <BiMenu className="toggle-icon" />}
+          </button>
         </div>
-        <ul className="nav-list">
-          {isOpen && (
-            <li className="search-box">
-              <BiSearch className="search-icon" />
-              <input type="text" placeholder="Search..." />
-              <span className="tooltip">Search</span>
-            </li>
-          )}
-          <li>
-            <a href="/dashboard">
-              <BiGridAlt className="nav-icon" />
-              <span className="links_name">Dashboard</span>
-            </a>
-            <span className="tooltip">Dashboard</span>
-          </li>
-          <li>
-            <a href="/share-expenses">
-              <BiDollarCircle className="nav-icon" />
-              <span className="links_name">Share Expenses</span>
-            </a>
-            <span className="tooltip">Share Expenses</span>
-          </li>
-          <li>
-            <a href="/groups">
-              <BiGroup className="nav-icon" />
-              <span className="links_name">My Groups</span>
-            </a>
-            <span className="tooltip">My Groups</span>
-          </li>
-          <li>
-            <a href="/user">
-              <BiUser className="nav-icon" />
-              <span className="links_name">User</span>
-            </a>
-            <span className="tooltip">User</span>
-          </li> 
-          {/* <li>
-            <a href="#">
-              <BiPieChartAlt2 className="nav-icon" />
-              <span className="links_name">Analytics</span>
-            </a>
-            <span className="tooltip">Analytics</span>
-          </li>
-           */}
-          {/* <li>
-            <a href="#">
-              <BiCartAlt className="nav-icon" />
-              <span className="links_name">Order</span>
-            </a>
-            <span className="tooltip">Order</span>
-          </li> */}
-          {/* <li>
-            <a href="#">
-              <BiHeart className="nav-icon" />
-              <span className="links_name">Saved</span>
-            </a>
-            <span className="tooltip">Saved</span>
-          </li> */}
-          <li>
-            <a href="#" onClick={toggleTheme}>
-              {theme === 'dark' ? <BiSun className="nav-icon" /> : <BiMoon className="nav-icon" />}
-              <span className="links_name">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-            </a>
-            <span className="tooltip">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-          </li>
-          <li>
-            <a href="#">
-              <BiCog className="nav-icon" />
-              <span className="links_name">Setting</span>
-            </a>
-            <span className="tooltip">Setting</span>
-          </li>
-          <li className="profile">
-            <div className="profile-details">
-              <img 
-                src={userData?.profileImage || 'profile.jpg'} 
-                alt="profileImg" 
-                className="profile-img"
-                onError={(e) => {
-                  e.target.onerror = null; // Prevent infinite loop
-                  e.target.src = 'profile.jpg';
-                }}
-              />
-              <div className="name_job">
-                <div className="name">{userData?.name}</div>
-                <div className="job">{userData?.job}</div>
-              </div>
+
+        <div className="search-box">
+          <BiSearch className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          {searchResults.length > 0 && searchQuery && (
+            <div className="search-results">
+              {searchResults.map((item, index) => (
+                <button
+                  key={index}
+                  className={`search-result-item ${location.pathname === item.path ? 'active' : ''}`}
+                  onClick={() => handleSearchItemClick(item.path)}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </button>
+              ))}
             </div>
-            <button className="logout-btn" onClick={handleLogoutClick}>
+          )}
+        </div>
+        
+        <ul className="nav-list">
+          {menuItems.map((item, index) => (
+            <li key={index}>
+              <a 
+                href={item.path}
+                className={location.pathname === item.path ? 'active' : ''}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSearchItemClick(item.path);
+                }}
+              >
+                {item.icon}
+                {isOpen && <span className="links_name">{item.name}</span>}
+              </a>
+              {!isOpen && <span className="tooltip">{item.name}</span>}
+            </li>
+          ))}
+        </ul>
+
+        <div className="profile">
+          <div className="profile-details">
+            {isOpen && (
+              <div className="profile-left">
+                <img 
+                  src={userData?.profileImage || 'profile.jpg'} 
+                  alt="profileImg" 
+                  className="profile-img"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'profile.jpg';
+                  }}
+                />
+                <div className="name_job">
+                  <div className="name">{userData?.name || 'User'}</div>
+                  <div className="job">{userData?.job || 'Member'}</div>
+                </div>
+              </div>
+            )}
+            <button 
+              className="logout-btn" 
+              onClick={() => setShowLogoutConfirm(true)}
+              title="Logout"
+            >
               <BiLogOut className="logout-icon" />
             </button>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
+
+      {isOpen && window.innerWidth <= 992 && (
+        <div className="sidebar-overlay" onClick={toggleSidebar} />
+      )}
 
       {showLogoutConfirm && (
         <>
-          <div className="overlay" onClick={handleCancelLogout} />
+          <div className="overlay" onClick={() => setShowLogoutConfirm(false)} />
           <div className="logout-confirmation">
             <p>Are you sure you want to logout?</p>
             <div className="logout-confirmation-buttons">
-              <button className="logout-confirm-btn yes" onClick={handleConfirmLogout}>
+              <button className="logout-confirm-btn yes" onClick={handleLogout}>
                 Yes
               </button>
-              <button className="logout-confirm-btn no" onClick={handleCancelLogout}>
+              <button 
+                className="logout-confirm-btn no" 
+                onClick={() => setShowLogoutConfirm(false)}
+              >
                 No
               </button>
             </div>

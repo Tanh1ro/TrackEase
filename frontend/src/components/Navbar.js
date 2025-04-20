@@ -1,39 +1,63 @@
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
+import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import '../css/Navbar.css';
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
-  const { userData } = useUser();
+  const { colors } = useTheme();
+  const location = useLocation();
   const handleClick = () => setClick(!click);
+
+  const handleSmoothScroll = (e, targetId) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      window.location.href = `/#${targetId}`;
+      return;
+    }
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setClick(false);
+    }
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path ? 'active' : '';
+  };
 
   return (
     <div className='header'>
       <div className='container'>
-        <h1 className='logo'>Logo</h1>
+        <Link to="/" className='logo'>
+          TrackEase
+        </Link>
         <ul className={click ? 'nav-menu active' : 'nav-menu'}>
           <li>
-            <Link to='/'>Home</Link>
+            <Link to='/' className={isActive('/')}>Home</Link>
           </li>
           <li>
-            <Link to='/about'>About</Link>
+            <a href="#about" onClick={(e) => handleSmoothScroll(e, 'about')} className={location.hash === '#about' ? 'active' : ''}>
+              About
+            </a>
           </li>
           <li>
-            <Link to='/contact'>Contact Us</Link>
+            <a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className={location.hash === '#contact' ? 'active' : ''}>
+              Contact Us
+            </a>
           </li>
         </ul>
         <div className='btn-group'>
           <Link to='/login'>
-            <button className='btn'>Login</button>
+            <button className='btn btn-primary'>Login</button>
           </Link>
         </div>
         <div className='hamburger' onClick={handleClick}>
           {click ? (
-            <FaTimes size={18} style={{ color: '#333' }} />
+            <FaTimes size={20} style={{ color: colors.text }} />
           ) : (
-            <FaBars size={18} style={{ color: '#333' }} />
+            <FaBars size={20} style={{ color: colors.text }} />
           )}
         </div>
       </div>

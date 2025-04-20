@@ -1,19 +1,23 @@
 /* Importing Google Fonts - Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #5F41E4;
+  background: var(--background);
   padding: 20px;
+  transition: background-color 0.3s ease;
 }
+
 #root {
   width: 100%;
   display: flex;
@@ -21,25 +25,31 @@ body {
   justify-content: center;
   min-height: 100vh;
 }
+
 .login-container {
   width: 100%;
   max-width: 410px;
   padding: 2rem 1.5rem;
   border-radius: 0.5rem;
-  background: #fff;
+  background: var(--card);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   margin: auto;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .login-container .form-title {
   text-align: center;
   font-size: 1.37rem;
   font-weight: 600;
   margin-bottom: 1.87rem;
+  color: var(--text);
 }
+
 .login-container .social-login {
   display: flex;
   gap: 1.31rem;
 }
+
 .social-login .social-button {
   display: flex;
   gap: 0.81rem;
@@ -51,32 +61,39 @@ body {
   border-radius: 0.31rem;
   align-items: center;
   justify-content: center;
-  background: #F9F8FF;
-  border: 1px solid #D5CBFF;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
   transition: 0.3s ease;
 }
+
 .social-login .social-button:hover {
-  border-color: #5F41E4;
-  background: #f1eff9;
+  border-color: var(--primary);
+  background: var(--card);
+  opacity: 0.9;
 }
+
 .social-login .social-button .social-icon {
   width: 23px;
 }
+
 .login-container .separator {
   position: relative;
   margin: 1.5rem 0;
   text-align: center;
-  background: #fff;
+  background: var(--card);
 }
+
 .login-container .separator span {
   z-index: 1;
   font-weight: 500;
-  color: #6652BE;
+  color: var(--primary);
   position: relative;
-  background: #fff;
+  background: var(--card);
   font-size: 1.06rem;
   padding: 0 0.9rem;
 }
+
 .login-container .separator::after {
   content: "";
   position: absolute;
@@ -84,87 +101,118 @@ body {
   top: 50%;
   height: 1px;
   width: 100%;
-  background: #bfb3f2;
+  background: var(--border);
 }
+
 .login-form .input-wrapper {
   height: 54px;
   width: 100%;
   position: relative;
   margin-bottom: 1.5rem;
 }
+
 .login-form .input-field {
   width: 100%;
   height: 100%;
   outline: none;
   font-size: 1.06rem;
   border-radius: 0.31rem;
-  border: 1px solid #bfb3f2;
+  border: 1px solid var(--border);
   padding: 0px 1.25rem 0 3.12rem;
   transition: 0.2s ease;
+  background: var(--card);
+  color: var(--text);
 }
+
 .login-form .input-field:focus {
-  border-color: #5F41E4;
+  border-color: var(--primary);
 }
+
 .login-form .input-field::placeholder {
-  color: #9284c8;
+  color: var(--text);
+  opacity: 0.6;
 }
+
 .login-form .input-wrapper i {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: #a395e0;
+  color: var(--text);
+  opacity: 0.7;
   font-size: 1.5rem;
   transition: 0.2s ease;
 }
+
 .login-form .input-wrapper i:not(.eye-icon) {
   left: 0.93rem;
   pointer-events: none;
 }
+
 .login-form .input-field:focus ~ i:not(.eye-icon) {
-  color: #5F41E4;
+  color: var(--primary);
+  opacity: 1;
 }
+
 .login-form .input-wrapper i.eye-icon {
   right: 0.93rem;
-  color: #917DE8;
+  color: var(--text);
   cursor: pointer;
   pointer-events: auto;
 }
+
 .login-form .input-wrapper .input-field:valid ~ .eye-icon {
   display: block;
 }
+
 .login-form .forgot-password-link {
   display: block;
   width: fit-content;
   margin-top: -0.44rem;
+  color: var(--primary);
 }
+
 .login-form .login-button {
   border: none;
   outline: none;
   width: 100%;
   height: 54px;
-  color: #fff;
+  color: white;
   font-size: 1.125rem;
   font-weight: 500;
   cursor: pointer;
   margin-top: 2.19rem;
   border-radius: 0.31rem;
-  background: #5F41E4;
+  background: var(--primary);
   transition: 0.3s ease;
 }
+
 .login-form .login-button:hover {
-  background: #4320df;
+  background: var(--primary-light);
 }
+
 .login-container .signup-prompt {
   text-align: center;
   font-size: 1.06rem;
   font-weight: 500;
   margin: 1.75rem 0 0.31rem;
+  color: var(--text);
 }
+
 .login-container a {
-  color: #5F41E4;
+  color: var(--primary);
   font-weight: 500;
   text-decoration: none;
 }
+
 .login-container a:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  color: #e53e3e;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: rgba(229, 62, 62, 0.1);
 }
