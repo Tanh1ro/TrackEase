@@ -168,17 +168,19 @@ const Sidebar = () => {
         <>
           <div className="overlay" onClick={() => setShowLogoutConfirm(false)} />
           <div className="logout-confirmation">
-            <p>Are you sure you want to logout?</p>
-            <div className="logout-confirmation-buttons">
-              <button className="logout-confirm-btn yes" onClick={handleLogout}>
-                Yes
-              </button>
-              <button 
-                className="logout-confirm-btn no" 
-                onClick={() => setShowLogoutConfirm(false)}
-              >
-                No
-              </button>
+            <div className="logout-confirmation-content">
+              <p>Are you sure you want to logout?</p>
+              <div className="logout-confirmation-buttons">
+                <button className="logout-confirm-btn yes" onClick={handleLogout}>
+                  Yes
+                </button>
+                <button 
+                  className="logout-confirm-btn no" 
+                  onClick={() => setShowLogoutConfirm(false)}
+                >
+                  No
+                </button>
+              </div>
             </div>
           </div>
         </>

@@ -181,10 +181,18 @@ const ProfilePage = () => {
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'var(--input-bg)',
                         borderRadius: '8px',
+                        color: 'var(--text-primary)',
                         '& fieldset': { borderColor: 'var(--border-color)' },
                         '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                         '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                         '& input': { padding: '14px 16px' }
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: 'var(--text-secondary)',
+                      },
+                      '& .MuiOutlinedInput-input::placeholder': {
+                        color: 'var(--text-secondary)',
+                        opacity: 0.7,
                       }
                     }}
                   />
@@ -205,10 +213,18 @@ const ProfilePage = () => {
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'var(--input-bg)',
                         borderRadius: '8px',
+                        color: 'var(--text-primary)',
                         '& fieldset': { borderColor: 'var(--border-color)' },
                         '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                         '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                         '& input': { padding: '14px 16px' }
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: 'var(--text-secondary)',
+                      },
+                      '& .MuiOutlinedInput-input::placeholder': {
+                        color: 'var(--text-secondary)',
+                        opacity: 0.7,
                       }
                     }}
                   />
@@ -227,10 +243,18 @@ const ProfilePage = () => {
                         '& .MuiOutlinedInput-root': {
                           backgroundColor: 'var(--input-bg)',
                           borderRadius: '8px',
+                          color: 'var(--text-primary)',
                           '& fieldset': { borderColor: 'var(--border-color)' },
                           '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                           '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                           '& input': { padding: '14px 16px' }
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: 'var(--text-secondary)',
+                        },
+                        '& .MuiOutlinedInput-input::placeholder': {
+                          color: 'var(--text-secondary)',
+                          opacity: 0.7,
                         }
                       }}
                     />
@@ -264,10 +288,18 @@ const ProfilePage = () => {
                         '& .MuiOutlinedInput-root': {
                           backgroundColor: 'var(--input-bg)',
                           borderRadius: '8px',
+                          color: 'var(--text-primary)',
                           '& fieldset': { borderColor: 'var(--border-color)' },
                           '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                           '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                           '& input': { padding: '14px 16px' }
+                        },
+                        '& .MuiInputLabel-root': {
+                          color: 'var(--text-secondary)',
+                        },
+                        '& .MuiOutlinedInput-input::placeholder': {
+                          color: 'var(--text-secondary)',
+                          opacity: 0.7,
                         }
                       }}
                     />
@@ -344,10 +376,18 @@ const ProfilePage = () => {
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: 'var(--input-bg)',
                       borderRadius: '8px',
+                      color: 'var(--text-primary)',
                       '& fieldset': { borderColor: 'var(--border-color)' },
                       '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                       '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                       '& input': { padding: '14px 16px' }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: 'var(--text-secondary)',
+                    },
+                    '& .MuiOutlinedInput-input::placeholder': {
+                      color: 'var(--text-secondary)',
+                      opacity: 0.7,
                     }
                   }}
                 />
@@ -378,10 +418,18 @@ const ProfilePage = () => {
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: 'var(--input-bg)',
                       borderRadius: '8px',
+                      color: 'var(--text-primary)',
                       '& fieldset': { borderColor: 'var(--border-color)' },
                       '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                       '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                       '& input': { padding: '14px 16px' }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: 'var(--text-secondary)',
+                    },
+                    '& .MuiOutlinedInput-input::placeholder': {
+                      color: 'var(--text-secondary)',
+                      opacity: 0.7,
                     }
                   }}
                 />
@@ -412,10 +460,18 @@ const ProfilePage = () => {
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: 'var(--input-bg)',
                       borderRadius: '8px',
+                      color: 'var(--text-primary)',
                       '& fieldset': { borderColor: 'var(--border-color)' },
                       '&:hover fieldset': { borderColor: 'var(--accent-color)' },
                       '&.Mui-focused fieldset': { borderColor: 'var(--accent-color)' },
                       '& input': { padding: '14px 16px' }
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: 'var(--text-secondary)',
+                    },
+                    '& .MuiOutlinedInput-input::placeholder': {
+                      color: 'var(--text-secondary)',
+                      opacity: 0.7,
                     }
                   }}
                 />
@@ -696,6 +752,7 @@ const ProfilePage = () => {
                   value={formData.currency}
                   sx={{
                     backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--border-color)'
                     },
@@ -704,6 +761,12 @@ const ProfilePage = () => {
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--accent-color)'
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
                     }
                   }}
                 >
@@ -723,6 +786,7 @@ const ProfilePage = () => {
                     value={formData.language}
                     sx={{
                       backgroundColor: 'var(--input-bg)',
+                      color: 'var(--text-primary)',
                       '& .MuiOutlinedInput-notchedOutline': {
                         borderColor: 'var(--border-color)'
                       },
@@ -731,6 +795,12 @@ const ProfilePage = () => {
                       },
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         borderColor: 'var(--accent-color)'
+                      },
+                      '& .MuiSelect-icon': {
+                        color: 'var(--text-primary)',
+                      },
+                      '& .MuiSelect-select': {
+                        color: 'var(--text-primary)',
                       }
                     }}
                   >
@@ -785,6 +855,7 @@ const ProfilePage = () => {
                   value={formData.timeZone}
                   sx={{
                     backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--border-color)'
                     },
@@ -793,6 +864,12 @@ const ProfilePage = () => {
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--accent-color)'
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
                     }
                   }}
                 >

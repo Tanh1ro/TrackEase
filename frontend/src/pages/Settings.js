@@ -259,8 +259,15 @@ const Settings = () => {
                   }}
                   sx={{
                     backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--border-color)',
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
                     },
                   }}
                 >
@@ -334,8 +341,15 @@ const Settings = () => {
                   onChange={(e) => handleBudgetPreferenceChange('budgetWarningThreshold', e.target.value)}
                   sx={{
                     backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--border-color)',
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
                     },
                   }}
                 >
@@ -423,8 +437,15 @@ const Settings = () => {
                   onChange={(e) => handleExpensePreferenceChange('defaultSplitType', e.target.value)}
                   sx={{
                     backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--border-color)',
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
                     },
                   }}
                 >
@@ -446,8 +467,15 @@ const Settings = () => {
                   onChange={(e) => handleExpensePreferenceChange('defaultCategory', e.target.value)}
                   sx={{
                     backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
                     '& .MuiOutlinedInput-notchedOutline': {
                       borderColor: 'var(--border-color)',
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
                     },
                   }}
                 >
@@ -527,7 +555,20 @@ const Settings = () => {
                 <Select
                   value="Daily"
                   size="small"
-                  sx={{ minWidth: 120 }}
+                  sx={{ 
+                    minWidth: 120,
+                    backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--border-color)',
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
+                    },
+                  }}
                 >
                   <MenuItem value="Daily">Daily</MenuItem>
                   <MenuItem value="Weekly">Weekly</MenuItem>
@@ -580,7 +621,20 @@ const Settings = () => {
                 <Select
                   value="Public"
                   size="small"
-                  sx={{ minWidth: 120 }}
+                  sx={{ 
+                    minWidth: 120,
+                    backgroundColor: 'var(--input-bg)',
+                    color: 'var(--text-primary)',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--border-color)',
+                    },
+                    '& .MuiSelect-icon': {
+                      color: 'var(--text-primary)',
+                    },
+                    '& .MuiSelect-select': {
+                      color: 'var(--text-primary)',
+                    },
+                  }}
                 >
                   <MenuItem value="Public">Public</MenuItem>
                   <MenuItem value="Friends">Friends</MenuItem>

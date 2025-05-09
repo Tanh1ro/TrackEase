@@ -532,3 +532,74 @@ body.sidebar-open .dashboard-container {
 .search-results::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.logout-confirmation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  width: 300px;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+}
+
+.logout-confirmation-content {
+  padding: 24px;
+  text-align: center;
+}
+
+.logout-confirmation p {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.logout-confirmation-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.logout-confirm-btn {
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.logout-confirm-btn.yes {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.logout-confirm-btn.yes:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.logout-confirm-btn.no {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.logout-confirm-btn.no:hover {
+  background-color: var(--bg-hover);
+  transform: translateY(-1px);
+}
